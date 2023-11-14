@@ -28,7 +28,7 @@ Dynamic data (Google Smartphone Decimeter Challenge-GSDC) is put under
 More GSDC data can be found at [GSDC 2021](https://www.kaggle.com/c/google-smartphone-decimeter-challenge) and [GSDC 2022](https://www.kaggle.com/c/smartphone-decimeter-2022/discussion/341111).
 
 ## Using our Codes
-👩🏽‍💻 The code is put under androidGnss/GPS_opensource_software.
+👩🏽‍💻 The code is put under `androidGnss/GPS_opensource_software`.
 
 The main entrance of the software includes:
 * for static data:
@@ -44,13 +44,13 @@ The main entrance of the software includes:
 Then, you need to
 * set the directory of your Android raw GNSS data file, e.g.:
       
-      `dirName ='../data/HuaweiMate10Pro/Training_data/2022-10-09-NTU-ADM-4`;
+      dirName ='../data/HuaweiMate10Pro/Training_data/2022-10-09-NTU-ADM-4';
 * specify the name of your Android raw GNSS data file, e.g.:
 
-      `prFileName = 'HuaweiMate10Pro_GnssLog.txt'`;
+      prFileName = 'HuaweiMate10Pro_GnssLog.txt';
 * specify the name of the ground truth data file, e.g.:
 
-      `gtNmeaFileName = 'NTU-ublox-GT.csv'`;
+      gtNmeaFileName = 'NTU-ublox-GT.csv';
 * run `ProcessGnssMeasScript_Static_NTU.m` (for example) to process Android raw GNSS measurements;
 
-## Thank you for your interest in our work. Kindly cite our paper!
+## 😃 Thank you for your interest in our work. Kindly cite our paper!
