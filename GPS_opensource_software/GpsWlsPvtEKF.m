@@ -98,12 +98,6 @@ gpsPvt.allVelMpsMHE    = zeros(N,3)+NaN;
 elapsed_time_ekf = 0;
 elapsed_time_rts = 0;
 
-% GT_data = load('DenoisedPrM.csv');
-% GT_data = load('PrM_Bias.csv');
-GT_data = load('PrM_Bias_2020-05-14-US-MTV-1_AR3_R.csv');
-% GT_data = load('SvPVT3D_Error_label_dynamic_data_2020-06-05-US-MTV-1.csv');
-
-
 f_3DPVT = fopen('PVT3D.txt','w');
 
 
@@ -140,9 +134,6 @@ th_Ele = 0;
 count_conti = 0;
 
 for i=offset:N
-%     if i==1579
-%         fprintf("1422");
-%     end
     iValid = find(isfinite(gnssMeas.PrM(i,:)) & gnssMeas.Cn0DbHz(i,:) > 0); %index into valid svid
     svid    = gnssMeas.Svid(iValid)';    
     [gpsEph,iSv] = ClosestGpsEph(allGpsEph,svid,gnssMeas.FctSeconds(i));% full cycle time
@@ -217,11 +208,7 @@ for i=offset:N
         %% WLS PVT -----------------------------------------------------------------
         %for those svIds with valid ephemeris, pack prs matrix for WlsNav
         prM     = gnssMeas.PrM(i,iValid(iSv))';
-        index_GT = GT_data(:,2) == i;
-%         if i > 884 && i < 1036
-%         prM = prM - GT_data(index_GT,end-3);
-%         end
-        
+
         prSigmaM= gnssMeas.PrSigmaM(i,iValid(iSv))';
         
         prrMps  = gnssMeas.PrrMps(i,iValid(iSv))';
@@ -436,10 +423,7 @@ for i=offset:N
         
         % Compute satellite positions
         prM     = gnssMeas.PrM(i,iValid(iSv))';
-        index_GT = GT_data(:,2) == i;
-%         if i > 884 && i < 1036
-%         prM = prM - GT_data(index_GT,end-3);
-%         end
+
         if ~isempty(prM)
             tRx = [ones(numSvs,1)*weekNum(i),gnssMeas.tRxSeconds(i,iValid(iSv))'];
             [svXyzTrx, dtsv, R_Ac, I_iono_logger, I_trop_logger] = ComputeSvXyz(tRx, prM, gpsPvt.allXyzMMMEKF(i,:), gpsEph, gpsPvt.allBcMetersEKF(i), iono);
@@ -501,7 +485,7 @@ for i=offset:N
         WindowSize = 8;  
         % N =2 in urban areas
 %         WindowSize = 2;
-        [xHat_MHE,Sum_numSvs,svid_unique] = MHEstimator(i,gnssMeas,allGpsEph,WindowSize,xo_MHE,weekNum,GT_data,count_conti,iono);
+        [xHat_MHE,Sum_numSvs,svid_unique] = MHEstimator(i,gnssMeas,allGpsEph,WindowSize,xo_MHE,weekNum,count_conti,iono);
 
         if Sum_numSvs<4 || length(svid_unique)<4
             continue;%skip to next epoch
